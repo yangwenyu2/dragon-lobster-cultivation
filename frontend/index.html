@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>龙虾修真志 | OpenClaw</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="toast-stack" id="toastStack"></div>
+
+  <div class="intro-overlay hidden finished" id="introOverlay">
+      <div class="intro-door intro-door-left"></div>
+      <div class="intro-door intro-door-right"></div>
+      <div class="intro-spotlight hidden" id="introSpotlight"></div>
+      <div class="intro-copy" id="introCopy">
+          <div class="intro-kicker">海渊洞府 · 初启</div>
+          <h1 class="intro-title">龙虾修真志</h1>
+          <div id="introLines">
+              <p class="intro-line">潮声压低，幽蓝法阵在深海洞府中缓缓苏醒。</p>
+              <p class="intro-line">你推门而入，先见护山大阵，再见本命龙虾，最后才听见器灵低语。</p>
+          </div>
+          <button class="event-btn confirm intro-confirm" onclick="ackOnboarding()">我已知晓洞府格局</button>
+      </div>
+  </div>
+  
+  <!-- 绝对底层的精美洞府背景 -->
+  <div class="bg-world" id="bgWorld"></div>
+  <canvas class="spirit-particles" id="spiritParticles"></canvas>
+
+  <!-- 主舞台 -->
+  <div class="main-stage">
+      
+      <div class="left-rail">
+          <div class="rail-kicker">修行罗盘</div>
+          <button class="rail-action primary" onclick="agentCommand('meditate')">吐纳</button>
+          <button class="rail-action" onclick="agentCommand('insight')">参悟</button>
+          <button class="rail-action" onclick="agentCommand('explore')">巡天</button>
+          <button class="rail-action warn" onclick="agentCommand('break')">破境</button>
+      </div>
+
+      <div class="right-rail">
+          <div class="rail-kicker">本命法宝</div>
+          <button class="rail-chip" onclick="switchPage('memory')">识海卷宗</button>
+          <button class="rail-chip" onclick="switchPage('sect')">宗门镜台</button>
+          <button class="rail-chip" onclick="checkEvent()">巡检灵符</button>
+          <button class="rail-chip danger" id="btnSuppressRail" onclick="agentCommand('suppress')">镇魔清障</button>
+      </div>
+
+      <!-- 顶部 HUD 层 -->
+      <div class="top-hud">
+          <div class="top-left">
+              <div class="realm-title" id="realmLevel">筑基初期</div>
+              <div class="model-info" id="sectName">加载中...</div>
+              <div class="progress-ribbon">
+                  <span class="label">修为进度</span>
+                  <span class="value" id="cultPoints">0 / 1000</span>
+              </div>
+          </div>
+          
+          <div class="top-right">
+              <div class="stat-pill"><span class="label">心魔波动 (Err)</span><span class="val" id="statDemon">0%</span></div>
+              <div class="stat-pill"><span class="label">当前机缘</span><span class="val" id="statLuck">推演中</span></div>
+          </div>
+      </div>
+
+      <!-- 中心视觉焦点：灵光阵与主角龙虾 -->
+      <div class="center-focus">
+          <div class="magic-circle" id="magicCircle"></div>
+          <div class="hero-character" id="heroSprite"></div>
+          <div class="tribulation-flash hidden" id="tribulationFlash">
+              <div class="tribulation-ring"></div>
+              <div class="tribulation-text" id="tribulationText">雷劫将至</div>
+              <div class="tribulation-countdown" id="tribulationCountdown">3</div>
+          </div>
+      </div>
+
+      <!-- 底部控制台：状态与动作 -->
+      <div class="bottom-console">
+          <!-- 世界状态回响 -->
+          <div class="world-state-panel">
+              <div class="panel-title">洞府回响</div>
+              <div class="state-grid">
+                  <div class="state-card">
+                      <div class="state-label">灵机潮汐</div>
+                      <div class="state-value" id="stateFortuneDetail">天命未定</div>
+                  </div>
+                  <div class="state-card">
+                      <div class="state-label">护山大阵</div>
+                      <div class="state-value" id="stateGuardArray">平稳运转</div>
+                      <div class="state-subvalue" id="stateGuardDetail">巡检未启</div>
+                  </div>
+                  <div class="state-card wide">
+                      <div class="state-label">当前道途</div>
+                      <div class="state-value" id="statePath">静候天机牵引</div>
+                      <div class="state-subvalue" id="stateCadence">巡天未启</div>
+                  </div>
+                  <div class="state-card wide alert-card hidden" id="stateActiveEventCard">
+                      <div class="state-label">外缘回响</div>
+                      <div class="state-value" id="stateActiveEvent">暂无未决机缘</div>
+                  </div>
+              </div>
+          </div>
+          <!-- 动作区 -->
+          <div class="action-zone glass-actions">
+              <button class="agent-action" id="btnGrantSkill" onclick="agentCommand('grant_skill')">📚 赐法开卷</button>
+              <button class="agent-action" onclick="rebirthNow()">🕯️ 兵解重修</button>
+              <button class="agent-action btn-danger" id="btnSuppress" onclick="agentCommand('suppress')" style="display:none;">🔱 清心咒 (降心魔)</button>
+          </div>
+      </div>
+
+      <!-- MMO式底部横条对话流 -->
+      <div class="chat-dock collapsed" id="chatDock">
+          <button class="chat-collapse-btn" type="button" aria-label="展开或收起对话卷轴" onclick="toggleChatDock()">⌃</button>
+          <button class="chat-addon-btn" type="button" aria-label="打开扩展交互" onclick="toggleChatTools()">➕</button>
+          <div class="chat-tool-menu hidden" id="chatToolMenu">
+              <button class="tool-menu-item" type="button" onclick="triggerImageUpload()">上传灵图</button>
+              <button class="tool-menu-item" type="button" onclick="appendSystemMessage('法器槽位尚未开放，已记下这次唤器意念。', '#8ad7ff')">接引法器</button>
+          </div>
+          <input type="file" id="imageUploadInput" accept="image/*" class="hidden-file-input" onchange="handleImageUpload(event)">
+          <div class="chat-log-panel">
+               <div class="chat-input-bar">
+                   <input id="chatInput" class="chat-input" type="text" placeholder="向器灵传念……例如：帮我总结今天工作" onkeydown="handleChatInputKey(event)">
+                   <button class="chat-send-btn" type="button" onclick="sendChatMessage()">传念</button>
+               </div>
+              <div class="chat-log-header">
+                  <span class="chat-log-title">洞府对话流</span>
+                  <div class="chat-log-actions">
+                      <button class="mini-action compact" onclick="switchPage('memory')">识海</button>
+                      <button class="mini-action compact" onclick="switchPage('sect')">宗门</button>
+                      <button class="mini-action compact" onclick="checkEvent()">巡检</button>
+                  </div>
+              </div>
+              <div id="termContent" class="term-body chat-log-body"></div>
+          </div>
+      </div>
+
+  </div>
+
+  <!-- 全屏浮层：宗门急令 (弹窗事件) -->
+  <div class="event-overlay hidden" id="eventCard">
+      <div class="event-box">
+          <div class="event-tag" id="ecmType">系统急令</div>
+          <h2 class="event-title" id="ecmTitle">发现大机缘</h2>
+          <p class="event-desc" id="ecmDesc">前尘卷宗，是否前往一探？</p>
+          <div class="event-meta">
+              <div class="meta-item"><span class="meta-label">道痕权重</span><span class="meta-value" id="ecmWeight">-</span></div>
+              <div class="meta-item"><span class="meta-label">落印时刻</span><span class="meta-value" id="ecmTime">-</span></div>
+          </div>
+          <div class="event-actions">
+              <button class="event-btn confirm" id="eventConfirmBtn" onclick="resolveAdventure(true)">祭分神 (Spawn Agent)</button>
+              <button class="event-btn reject" id="eventRejectBtn" onclick="resolveAdventure(false)">闭关无视 (Ignore)</button>
+          </div>
+      </div>
+  </div>
+
+  <div class="event-overlay hidden" id="fateCard">
+      <div class="event-box fate-box">
+          <div class="event-tag" id="fateTag">命数回响</div>
+          <h2 class="event-title" id="fateTitle">破境余波</h2>
+          <p class="event-desc" id="fateDesc">命轮震荡，结果未卜。</p>
+          <div class="event-meta">
+              <div class="meta-item"><span class="meta-label">破境前</span><span class="meta-value" id="fateBefore">-</span></div>
+              <div class="meta-item"><span class="meta-label">破境后</span><span class="meta-value" id="fateAfter">-</span></div>
+              <div class="meta-item"><span class="meta-label">修为变化</span><span class="meta-value" id="fatePoints">-</span></div>
+              <div class="meta-item"><span class="meta-label">命势判定</span><span class="meta-value" id="fateOutcome">-</span></div>
+          </div>
+          <div class="event-actions">
+              <button class="event-btn confirm" onclick="closeFateCard()">收束命轮</button>
+          </div>
+      </div>
+  </div>
+
+  <div class="event-overlay hidden" id="sectFateCard">
+      <div class="event-box fate-box">
+          <div class="event-tag">宗门回响</div>
+          <h2 class="event-title" id="sectFateTitle">化身调度余波</h2>
+          <p class="event-desc" id="sectFateDesc">堂口气机正在重排。</p>
+          <div class="event-meta">
+              <div class="meta-item"><span class="meta-label">派往堂口</span><span class="meta-value" id="sectFateHall">-</span></div>
+              <div class="meta-item"><span class="meta-label">新生化身</span><span class="meta-value" id="sectFateAvatar">-</span></div>
+              <div class="meta-item"><span class="meta-label">秩序变化</span><span class="meta-value" id="sectFateOrder">-</span></div>
+              <div class="meta-item"><span class="meta-label">宗门后果</span><span class="meta-value" id="sectFateConsequence">-</span></div>
+          </div>
+          <div class="event-actions">
+              <button class="event-btn confirm" onclick="closeSectFateCard()">收束堂口</button>
+          </div>
+      </div>
+  </div>
+
+  <div class="event-overlay hidden" id="offlineSettlementCard">
+      <div class="event-box fate-box offline-box">
+          <div class="event-tag">闭关回山</div>
+          <h2 class="event-title" id="offlineTitle">道友别来无恙</h2>
+          <p class="event-desc" id="offlineDesc">此去未久，洞府仍替你缓缓运转。</p>
+          <div class="event-meta">
+              <div class="meta-item"><span class="meta-label">离线时长</span><span class="meta-value" id="offlineDuration">-</span></div>
+              <div class="meta-item"><span class="meta-label">待领真气</span><span class="meta-value" id="offlineCultivation">-</span></div>
+              <div class="meta-item"><span class="meta-label">待结心魔</span><span class="meta-value" id="offlineDemon">-</span></div>
+              <div class="meta-item"><span class="meta-label">上次闭关刻印</span><span class="meta-value" id="offlineCalculatedAt">-</span></div>
+          </div>
+          <div class="event-actions">
+              <button class="event-btn confirm" onclick="claimOfflineSettlement()">收取闭关所得</button>
+              <button class="event-btn reject" onclick="dismissOfflineSettlement()">暂不收束</button>
+          </div>
+      </div>
+  </div>
+
+  
+  
+  <!-- 宗门与法脉画卷 v5 (全体系宗门管理) -->
+  <div class="sect-page hidden" id="sectCard">
+      <div class="sect-page-shell sect-scroll-box" style="width:600px; text-align:left; max-height:80vh; overflow-y:auto;">
+          <h2 class="event-title" style="border-bottom:1px solid #0ff; padding-bottom:10px;">
+              ⛩️ <span id="pSectName">读取中</span>
+          </h2>
+          
+          <div style="margin-top:15px; color:#aaa; font-size:14px;">
+              <p style="margin-bottom:10px; color:#f1c40f; font-weight:bold;">【本命道法 · 挂载组件】</p>
+              <ul id="pSectSkills" style="line-height:2; display:flex; flex-wrap:wrap; gap:8px; list-style:none; padding:0; margin-bottom: 20px;">
+              </ul>
+
+              <p style="margin-bottom:10px; color:#f1c40f; font-weight:bold;">【六部堂口 · 化身名录】</p>
+              <div style="font-size:12px; color:#8ad7ff; margin-bottom:12px;">真实并行化身：<span id="pSectSubagentCount">0</span> ｜ 统御压强：<span id="pSectSubagentPressure">0%</span></div>
+              <div style="margin-bottom:14px;">
+                  <div style="font-size:12px; color:#f1c40f; margin-bottom:8px;">【洞府底层进程镜台】</div>
+                  <div id="pSectProcesses" style="display:grid; gap:8px;"></div>
+              </div>
+              <div id="pSectDivisions" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                  <!-- Divisions injected dynamically here -->
+              </div>
+          </div>
+          
+          <div class="event-actions" style="margin-top:30px; text-align:right;">
+             <button class="event-btn confirm" onclick="document.getElementById('sectCard').classList.add('hidden'); document.body.classList.remove('sect-mode');">收起卷宗</button>
+          </div>
+      </div>
+  </div>
+
+  </div>
+
+  <!-- 多屏左侧导航 (可选) -->
+  <div class="side-nav">
+      <div class="nav-item" onclick="switchPage('memory')">本命识海</div>
+      <div class="nav-item" onclick="switchPage('sect')">藏经秘阁</div>
+  </div>
+
+  <div class="memory-drawer" id="memoryDrawer">
+      <div class="drawer-header">
+          <div>
+              <div class="drawer-title">本命识海</div>
+              <div class="drawer-subtitle">悟道、机缘与失误碑将在此沉浮</div>
+          </div>
+          <button class="drawer-close" onclick="switchPage('close-memory')">收海</button>
+      </div>
+      <div class="memory-summary-card">
+          <div class="memory-summary-grid">
+              <div class="memory-summary-item">
+                  <div class="memory-summary-label">识海深度</div>
+                  <div class="memory-summary-value" id="memoryDepth">未测</div>
+              </div>
+              <div class="memory-summary-item">
+                  <div class="memory-summary-label">记忆规模</div>
+                  <div class="memory-summary-value" id="memoryScale">0 字</div>
+              </div>
+              <div class="memory-summary-item">
+                  <div class="memory-summary-label">司命巡天</div>
+                  <div class="memory-summary-value" id="heartbeatState">未载入</div>
+              </div>
+              <div class="memory-summary-item">
+                  <div class="memory-summary-label">最近巡天报</div>
+                  <div class="memory-summary-value" id="heartbeatReport">未载入</div>
+              </div>
+              <div class="memory-summary-item wide">
+                  <div class="memory-summary-label">长期记忆摘录</div>
+                  <div class="memory-summary-value multiline" id="memoryHighlights">尚未探入识海深处。</div>
+              </div>
+          </div>
+      </div>
+      <div class="memory-list" id="memoryList"></div>
+  </div>
+
+  <script src="engine.js"></script>
+</body>
+</html>

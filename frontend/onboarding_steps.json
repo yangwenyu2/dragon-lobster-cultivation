@@ -1,0 +1,20 @@
+[
+  {
+    "id": "meditate",
+    "title": "先学吐纳",
+    "body": "点击左侧修行罗盘中的【吐纳】，让洞府先汇聚第一缕真气。",
+    "target": ".left-rail .rail-action.primary"
+  },
+  {
+    "id": "watch-hud",
+    "title": "看懂顶层回响",
+    "body": "观察顶部 HUD 的境界、修为进度和当前机缘，理解修行如何映射到底座状态。",
+    "target": ".top-hud"
+  },
+  {
+    "id": "inspect-memory",
+    "title": "读识海",
+    "body": "打开【识海卷宗】，确认这不是假数据，而是真正接上的 MEMORY 与 watchdog 回响。",
+    "target": ".right-rail .rail-chip"
+  }
+]
