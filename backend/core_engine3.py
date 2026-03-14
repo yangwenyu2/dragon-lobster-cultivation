@@ -62,7 +62,7 @@ def serve_frontend(filename):
 from models.cultivation import attempt_breakthrough, add_points, load_data as load_realm
 from models.sect import load_sect_data, assign_avatar, sync_skills_to_sect, save_sect_data, check_sect_order
 
-WORKSPACE_ROOT = PROJECT_ROOT.parent.parent
+
 EPOCH_DB = DATA_DIR / 'epoch_state.sqlite3'
 
 def get_free_memory_percent():
@@ -173,8 +173,8 @@ def read_text_file(path_obj):
 
 
 def load_memory_adapter_snapshot():
-    memory_path = WORKSPACE_ROOT / 'MEMORY.md'
-    learnings_dir = WORKSPACE_ROOT / '.learnings'
+    memory_path = PROJECT_ROOT / "demo_data" / 'MEMORY.md'
+    learnings_dir = PROJECT_ROOT / "demo_data" / '.learnings'
     learnings_path = learnings_dir / 'LEARNINGS.md'
     errors_path = learnings_dir / 'ERRORS.md'
 
@@ -252,8 +252,8 @@ def load_memory_adapter_snapshot():
 
 
 def load_watchdog_adapter_snapshot():
-    state_path = WORKSPACE_ROOT / 'logs' / 'watchdog_state.json'
-    log_path = WORKSPACE_ROOT / 'logs' / 'watchdog.log'
+    state_path = PROJECT_ROOT / "demo_data" / 'logs' / 'watchdog_state.json'
+    log_path = PROJECT_ROOT / "demo_data" / 'logs' / 'watchdog.log'
 
     state = {}
     try:
@@ -358,7 +358,7 @@ def load_cron_heartbeat_adapter_snapshot():
     except Exception:
         jobs = []
 
-    heartbeat_path = WORKSPACE_ROOT / 'memory' / 'heartbeat-state.json'
+    heartbeat_path = PROJECT_ROOT / "demo_data" / 'memory' / 'heartbeat-state.json'
     heartbeat_state = {}
     try:
         heartbeat_state = json.loads(read_text_file(heartbeat_path) or '{}')
@@ -556,7 +556,7 @@ def suppress_demon():
     except Exception:
         pass
 
-    logs_dir = WORKSPACE_ROOT / 'logs'
+    logs_dir = PROJECT_ROOT / "demo_data" / 'logs'
     if logs_dir.exists():
         for item in logs_dir.glob('*.log'):
             try:
@@ -1057,4 +1057,4 @@ def chat_parse():
         })
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=18889)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 18889)))

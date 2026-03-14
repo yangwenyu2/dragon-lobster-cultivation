@@ -233,7 +233,7 @@ class SaveManager:
         generation = int(current.get('rebirth', {}).get('generation', 1) or 1) + 1
         legacy_skill = None
         try:
-            skills = sorted([p.name for p in (WORKSPACE_ROOT / 'skills').iterdir() if p.is_dir()])
+            skills = sorted([p.name for p in (PROJECT_ROOT / 'demo_data' / 'skills').iterdir() if p.is_dir()])
             legacy_skill = skills[-1] if skills else None
         except Exception:
             legacy_skill = None

@@ -26,7 +26,7 @@ SECT_STRUCTURE = {
 def sync_skills_to_sect():
     # 真实扫描技能目录，并自动分配到对应的堂口或者法器库
     try:
-        skill_dir = PROJECT_ROOT.parent.parent / 'skills'
+        skill_dir = PROJECT_ROOT / "demo_data" / 'skills'
         skills = []
         if skill_dir.exists():
             skills = sorted([d.name for d in skill_dir.iterdir() if d.is_dir()])
