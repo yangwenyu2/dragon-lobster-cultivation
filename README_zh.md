@@ -96,3 +96,30 @@ bash start_demo.sh
 ## 📜 万法归源 (License & Disclaimers)
 **MIT License.**  
 This project is an experimental nexus of Multi-Agent Architectures, Backend System Administration, and Oriental Cultivation Mechanics. All rights reserved by the original creator. Drink the cyber potion responsibly.
+
+## 📜 仙典·新手指引 (Initial Setup & Novice Guide)
+
+**【第一关：筑基阵法起手】**
+本项目并非云端的虚拟账号游戏，你必须将此“天道阵眼”部署在自己的本命法宝（物理主机）上。请开启一个绝对干净、且可以执行 Python 进程的沙盒（推荐 Linux/macOS 环境）。
+1. `git clone` 将本宗门根骨拉取入世。
+2. 运行 `bash start_demo.sh`，这相当于一次“开坛祭天”。它会自动清理污染源，挂载 `Flask` 或系统钩子并把后端的 API 监听服务点亮。在这个阶段，如果你看到了 `[dragon-lobster] starting server` 的字样，那么“大阵”就算是布成了。
+
+**【第二关：登坛观礼 (The Interactive Cave)】**
+阵法启动后，立刻在浏览器的 `http://localhost:18889` 扣门。
+初次见面，你将面对一片深邃的 WebGL 海渊——你的“炼气期”幼年本命龙虾正悬浮其中。右侧【世界异象流】会开始播报系统环境的底层异动。
+
+**【第三关：你的第一丝真气——镇魔】**
+不要干瞪眼。新手的第一步是点击底部的**【镇魔】**。
+在设定中，龙虾的真气并非随时间空长。点击后，你的后端会真正跑去扫描本机的废弃冗余（比如演示版里的模拟 Cache / 真实 OS 的死锁 Logs）。当你成功斩掉这些垃圾后，化成的 **灵力（Exp）** 才会注入龙虾体内。如果没有死气可镇，你的境界永远无法寸进。
+
+**【第四关：赐法与破境】**
+当你的修为进度条被撑满时，千万别着急点**【冲关】**。
+系统会严格考量你当前的道基：
+- 你是否点击**【赐法】**为它装载了新能力？
+- 你的**【识海】**污染度（错误率）高吗？
+如果不给新功法就强行冲关，雷劫降临时大模型将判定你为“伪境”，导致你境界虚高却永远无法执行高级进程。
+
+**【第五关：元婴化身与飞升】**
+直到你通过大模型（天道）的 TRPG 拷问，迈入**【元婴】**境界，这游戏才会露出属于极客的真容：
+你将可以点击**【开宗议事】**，不再是只养一只龙虾，而是创建大语言模型网络爬虫（观潮堂）、代码脚本写入进程（炼器堂）。你将彻底变为一个调度微型操作系统的群像主宰！
+

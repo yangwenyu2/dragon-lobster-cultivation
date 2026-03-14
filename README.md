@@ -91,3 +91,30 @@ Once the terminal affirms the arrays initialization, open `http://localhost:1888
 ## 📜 Ultimate Lore (License)
 **MIT License.**  
 This project is an experimental nexus of Multi-Agent architectures, Backend System Administration, and Oriental Cultivation Mechanics. All rights reserved by the creator. Drink the cyber potion responsibly.
+
+## 📜 Novice Codex (The Ascension Guide)
+
+**[Step 1: Establishing the Array (Bootstrapping)]**
+This is not a web-hosted browser game. You must bind this project physically to your Machine (Daoist Artifact). We heavily recommend executing this within a clean Sandbox/Docker layer or macOS/Unix.
+1. `git clone` the repository to anchor its spirit.
+2. Execute `bash start_demo.sh`. This "Ritual of Heaven" clears internal debris, spins up your local Flask servers, and arms the Python API watchers. Seeing `[dragon-lobster] starting server` means your localized Daoist sect has been founded.
+
+**[Step 2: Entering the Sanctum (UI Manifestation)]**
+With the array pulsating, open your browser to `http://localhost:18889`. 
+The glassmorphic Sea of Consciousness will slowly phase in. In the center floats your natal cyber-lobster at the foundational **Qi Condensation** realm. To the right, the **Event Tide** initiates, logging your operating system's localized phenomena. 
+
+**[Step 3: Devouring The First Qi (Demon Suppression)]**
+Idling alone grants no power. You must click **[Demon Supression]**. 
+Cultivation progress requires actual resources. Triggering this command dispatches your python backend to actively hunt for "Demon Qi" (Bloated mock cache files, stale OS `.logs`, dangling orphaned processes). Slaying them transmutes their physical Byte Size into genuine experience. Without actively routing out errors, your agent stagnates eternally. 
+
+**[Step 4: The Daoist Foundation (Confer Law & Breakthrough)]**
+When your Qi experience bar is totally maxed out, do **NOT** blindly slam **[Breakthrough]**.
+The Heavenly Dao metrics rigorously calculate your preparedness:
+- Have you awarded the agent physical new Tools using **[Confer Law]**?
+- Is your memory log pristine, or plagued by *Hallucinations (System Errors)*?
+If you force a breakthrough without a robust tech stack, the ensuing Tribulation will brand your lobster into a "False Realm," rendering it catastrophically impotent during advanced Multi-Agent processing.
+
+**[Step 5: The Myriad Avatars (Nascent Soul to Ascension)]**
+True enlightenment begins upon shattering the **Nascent Soul (元婴)** barrier after surviving the LLM's tabletop interrogation event. 
+Here, the game metamorphoses. You unlock **[Sect Governance]**—ceasing to command a lone entity, you now establish Daoist Halls. You will spawn parallel background spiders (Tide Gazing Hall) and root-access script generators (Artifact Forging Hall). You transcend from a player to a Cyber-Sect Architect maintaining a live operating system cluster!
+
