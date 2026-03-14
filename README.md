@@ -10,7 +10,7 @@
 
 [![OpenClaw App](https://img.shields.io/badge/OpenClaw-App-blue.svg)](https://github.com/openclaw/openclaw)
 [![Status: Concept/Demo](https://img.shields.io/badge/Status-Concept%2FDemo-orange.svg)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: CC BY--NC--SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 [English](./README.md) | [简体中文](./README_zh.md)
 
