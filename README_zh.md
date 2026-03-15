@@ -52,5 +52,5 @@ bash start_demo.sh
 ---
 
 ## 📜 万法归源 (License)
-**MIT License.**  
+**CC BY-NC-SA 4.0 License.**  
 This project is an experimental nexus of Multi-Agent Architectures, OS Physics, and Oriental Cultivation Mechanics. All rights reserved by the original creator.

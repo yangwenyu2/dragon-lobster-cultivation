@@ -52,5 +52,5 @@ Upon executing the terminal ritual, open `http://localhost:18889` in your cyber-
 ---
 
 ## 📜 Legal & Licenses 
-**MIT License.**  
+**CC BY-NC-SA 4.0 License.**  
 This project is an experimental nexus of Multi-Agent Architectures, Backend OS probing, and ultra-punishing Oriental MUD Mechanics. 
